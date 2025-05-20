@@ -100,7 +100,7 @@ class OrderCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '\$${coffee.price!.toStringAsPrecision(3)}',
+                  '\$${coffee.price?.toStringAsPrecision(3) ?? 4.25}',
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 18),
                 ),

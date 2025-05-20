@@ -8,7 +8,7 @@ final totalWithDeliveryProvider = Provider<double>((ref) {
 
   final subtotal = cart.fold(
     0.0,
-    (sum, item) => sum + item.quantity * item.coffee.price!,
+    (sum, item) => sum + item.quantity * 4.25,
   );
 
   return subtotal + deliveryFee;

@@ -6,6 +6,7 @@ import 'package:mobile_coffee_shop/constants/colors.dart';
 import 'package:mobile_coffee_shop/models/location_list_model.dart';
 import 'package:mobile_coffee_shop/providers/checkout/cart_counter_provider.dart';
 import 'package:mobile_coffee_shop/providers/checkout/delivery_fee_provider.dart';
+import 'package:mobile_coffee_shop/providers/checkout/stripe/stripe_state_provider.dart';
 import 'package:mobile_coffee_shop/providers/checkout/subtotal_price_provider.dart';
 import 'package:mobile_coffee_shop/providers/checkout/total_price_provider.dart';
 import 'package:mobile_coffee_shop/providers/location_state_provider.dart';
@@ -180,7 +181,7 @@ class _ShoppingCartScreenState extends ConsumerState<ShoppingCartScreen> {
                       ),
                     ),
                     subtitle: Text(
-                      "\$${(item.quantity * item.coffee.price!).toStringAsFixed(2)}",
+                      "\$${(item.quantity * 4.25).toStringAsFixed(2)}",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     trailing: Row(
@@ -377,7 +378,7 @@ class DeliveryAddress extends StatelessWidget {
   }
 }
 
-class ShoppingCartBottomNavigation extends StatelessWidget {
+class ShoppingCartBottomNavigation extends ConsumerWidget {
   const ShoppingCartBottomNavigation({
     super.key,
     required this.totalPrice,
@@ -388,7 +389,8 @@ class ShoppingCartBottomNavigation extends StatelessWidget {
   final double subtotalPrice;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    ref.watch(stripeStateProvider);
     return Container(
       height: 165,
       width: double.infinity,
@@ -445,10 +447,13 @@ class ShoppingCartBottomNavigation extends StatelessWidget {
                 onPressed: subtotalPrice == 0
                     ? null
                     : () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const DeliveryScreen();
-                        }));
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) {
+                        //   return const DeliveryScreen();
+                        // }));
+                        ref
+                            .read(stripeStateProvider.notifier)
+                            .makePayment((totalPrice * 100).toInt());
                       },
                 child: const Text("Order"),
               ),

@@ -37,7 +37,6 @@ class CoffeeService {
             method: options.method,
           ),
         )
-        // ignore: body_might_complete_normally_catch_error, argument_type_not_assignable_to_error_handler
         .catchError(() {});
 
     dynamic body = coffeeData.data;

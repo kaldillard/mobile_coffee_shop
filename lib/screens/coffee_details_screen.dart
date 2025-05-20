@@ -315,7 +315,7 @@ class _CoffeeDetailsScreenState extends ConsumerState<CoffeeDetailsScreen> {
                         color: Colors.grey, fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    "\$${widget.coffee.price!.toStringAsPrecision(3)}",
+                    "\$${widget.coffee.price?.toStringAsPrecision(3) ?? 4.25}",
                     style: const TextStyle(
                         color: color01,
                         fontWeight: FontWeight.bold,
